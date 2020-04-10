@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Todo
+    </title>
+    <link rel="icon" href="/public/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/public/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="/public/css/reset.css" type="text/css"/>
+    <link rel="stylesheet" href="/public/css/style.css" type="text/css"/>
+</head>
+
+<body>
+<div class="page">
+    <div class="header box">
+        <a href="/">txtview</a>
+    </div>
+
+    <div class="main box">
+        <div class="box">
+            <div class="box todos">
+                <a href="/new">新建</a>
+                <br><br/>
+                <table border="1" style="width: 100%">
+                    <thead>
+                    <tr>
+                        <th>标题</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{with .TxtViewList}}
+                        {{range .}}
+                            <tr style="text-align: center">
+                                <td>{{.Title}}</td>
+                                <td>
+                                    <a href="/edit?id={{.Id}}">编辑</a>&nbsp;
+                                    <a href="/delete?id={{.Id}}&del={{.Del}}" onclick="return confirm('删除以后不能恢复的，确定？')">删除</a>
+                                </td>
+                            </tr>
+                        {{end}}
+                    {{end}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="foot">
+        <br> powered by golang
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+    function emptyCheck() {
+        var title = document.all['title'].value;
+        if (title.length == 0) {
+            alert("内容不能为空，请输入.")
+            return false;
+        }
+        return true;
+    }
+</script>
+
+</html>

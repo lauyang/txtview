@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        {{.title}}
+    </title>
+    <link rel="icon" href="/public/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/public/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="/public/css/reset.css" type="text/css"/>
+    <link rel="stylesheet" href="/public/css/style.css" type="text/css"/>
+</head>
+
+<body>
+<div class="page">
+    <div class="header box">
+        <a href="/">txtview</a>
+    </div>
+
+    <div class="main box">
+        <div class="box">
+            <div class="box post">
+                <form action="/edit" method="post" id="post_new" onsubmit="return emptyCheck()">
+                    <p>
+                        <input type="hidden" name="id" value="{{.Id}}">
+                    <div>
+                        <span>标题</span><input type="text" name="title" class="long_txt" value="{{.Title}}"/>
+                    </div>
+                    <div>
+                        <span>内容</span>
+                        <textarea rows='10' cols='30' class="long_txt" name="content">{{.Content}}</textarea>
+                    </div>
+                    </p>
+                    <p>
+                        <input type="submit" class="submit" value="完成"/>
+                        <a href="/">返回首页</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="foot">
+        <br> powered by golang
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    function emptyCheck() {
+        var title = document.all['title'].value;
+        if (title.length == 0) {
+            alert("内容不能为空，请输入.")
+            return false;
+        }
+        return true;
+    }
+</script>
+
+</html>
