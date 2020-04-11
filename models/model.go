@@ -66,8 +66,8 @@ func QueryAll() ([]TxtView, error) {
 		} else {
 			lock = "锁定"
 		}
-		todo := TxtView{id, title, content, del, unLockTime, lock}
-		txtViews = append(txtViews, todo)
+		txtview := TxtView{id, title, content, del, unLockTime, lock}
+		txtViews = append(txtViews, txtview)
 	}
 	return txtViews, nil
 }
@@ -95,14 +95,14 @@ func DelTxtView(textViewId int64, del bool) (int64, error) {
 	return affect, nil
 }
 
-func GetTxtView(todoId int64) (string, string, int64, error) {
+func GetTxtView(txtviewId int64) (string, string, int64, error) {
 	db, err := sql.Open("sqlite3", "./db/txtview.db")
 	defer db.Close()
 	if err != nil {
 		return "", "", 0, err
 	}
 	// 只查询一行数据
-	row := db.QueryRow("SELECT title, content, unLockTime FROM txtview WHERE id=?", todoId)
+	row := db.QueryRow("SELECT title, content, unLockTime FROM txtview WHERE id=?", txtviewId)
 	var title, content string
 	var unLockTime int64
 	e := row.Scan(&title, &content, &unLockTime)
@@ -157,7 +157,7 @@ func UpdateTxtViewUnLockTime(txtViewId, unLockTime int64) (int64, error) {
 	return affect, nil
 }
 
-func EditTodo(id, unLockTime int64, title, content string) (int64, error) {
+func EditTxtview(id, unLockTime int64, title, content string) (int64, error) {
 	db, err := sql.Open("sqlite3", "./db/txtview.db")
 	defer db.Close()
 	if err != nil {

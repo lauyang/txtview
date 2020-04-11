@@ -67,7 +67,7 @@ func MonitorData(w http.ResponseWriter, r *http.Request) {
 		intId, _ := strconv.ParseInt(id, 10, 64)
 		_, _, unLockTime, err := models.GetTxtView(intId)
 		if err != nil {
-			showError(w, "异常", "查询Todo内容失败")
+			showError(w, "异常", "查询txtview内容失败")
 			return
 		}
 		var dtstr string
@@ -153,7 +153,7 @@ func DelTxtView(w http.ResponseWriter, r *http.Request) {
 
 		_, err := models.DelTxtView(intId, !boolDel)
 		if err != nil {
-			showError(w, "异常", "完成Todo失败")
+			showError(w, "异常", "完成txtview失败")
 			return
 		}
 		http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -169,7 +169,7 @@ func EditTxtView(w http.ResponseWriter, r *http.Request) {
 		intId, _ := strconv.ParseInt(id, 10, 64)
 		title, content, unLockTime, err := models.GetTxtView(intId)
 		if err != nil {
-			showError(w, "异常", "查询Todo内容失败")
+			showError(w, "异常", "查询txtview内容失败")
 			return
 		}
 		if time.Now().Unix() <= unLockTime {
@@ -195,7 +195,7 @@ func EditTxtView(w http.ResponseWriter, r *http.Request) {
 		id, _ := strconv.ParseInt(r.FormValue("id"), 10, 64)
 		title := r.FormValue("title")
 		content := r.FormValue("content")
-		res, err := models.EditTodo(id, time.Now().Unix(), title, content)
+		res, err := models.EditTxtview(id, time.Now().Unix(), title, content)
 		if err != nil || res <= 0 {
 			showError(w, "异常", "修改失败")
 			return
@@ -204,7 +204,7 @@ func EditTxtView(w http.ResponseWriter, r *http.Request) {
 		// Write back to file
 		err = ioutil.WriteFile("views/file/"+title, []byte(content), 0644)
 		if err != nil {
-			showError(w, "异常", "查询Todo内容失败")
+			showError(w, "异常", "查询txtview内容失败")
 			return
 		}
 
