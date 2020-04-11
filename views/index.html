@@ -22,28 +22,57 @@
             <div class="box todos">
                 <a href="/new">新建</a>
                 <br><br/>
-                <table border="1" style="width: 100%">
-                    <thead>
-                    <tr>
-                        <th>标题</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {{with .TxtViewList}}
-                        {{range .}}
-                            <tr style="text-align: center">
-                                <td>{{.Title}}</td>
-                                <td>
-                                    <a href="/edit?id={{.Id}}">编辑</a>&nbsp;
-                                    <a href="/delete?id={{.Id}}&del={{.Del}}" onclick="return confirm('删除以后不能恢复的，确定？')">删除</a>
-                                </td>
-                            </tr>
+                <div>
+                    <table border="1" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>标题</th>
+                            <th>是否锁定</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{with .TxtViewList}}
+                            {{range .}}
+                                <tr style="text-align: center">
+                                    <td>{{.Title}}</td>
+                                    <td id="lock_{{.Id}}">{{.Lock}}</td>
+                                    <td id="edit_{{.Id}}">
+                                        {{if ne .Lock "锁定"}}
+                                            <a href="/edit?id={{.Id}}">编辑</a>&nbsp;
+                                            <a href="/delete?id={{.Id}}&del={{.Del}}"
+                                               onclick="return confirm('删除以后不能恢复的，确定？')">删除</a>
+                                        {{end}}
+                                    </td>
+                                </tr>
+                            {{end}}
                         {{end}}
-                    {{end}}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+        </div>
+        <div>
+            <script>
+                if (typeof (EventSource) !== "undefined") {
+                    var source = new EventSource("monitorList");
+                    source.onmessage = function (event) {
+                        let obj = JSON.parse(event.data);
+                        console.log(obj);
+                        for (let i = 0; i < obj.TxtViewList.length; i++) {
+                            let ele = obj.TxtViewList[i];
+                            document.getElementById("lock_" + ele.Id).innerHTML = ele.Lock;
+                            if (ele.Lock === "锁定") {
+                                document.getElementById("edit_" + ele.Id).innerHTML = "";
+                            } else {
+                                document.getElementById("edit_" + ele.Id).innerHTML = '<a href="/edit?id='+ele.Id+'">编辑</a>&nbsp; <a href="/delete?id='+ele.Id+'&del='+ele.Del+'" onclick="return confirm(\'删除以后不能恢复的，确定？\')">删除</a>';
+                            }
+                        }
+                    };
+                } else {
+                    alert("抱歉，你的浏览器不支持 server-sent 事件...");
+                }
+            </script>
         </div>
     </div>
 

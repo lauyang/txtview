@@ -16,6 +16,8 @@ func main() {
 	//http.HandleFunc("/restore", handlers.DelTxtView)
 	http.HandleFunc("/delete", handlers.DelTxtView)
 	http.HandleFunc("/", handlers.Index)
+	http.HandleFunc("/monitorList", handlers.MonitorList)
+	http.HandleFunc("/monitorData", handlers.MonitorData)
 
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {

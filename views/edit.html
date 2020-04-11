@@ -22,7 +22,7 @@
             <div class="box post">
                 <form action="/edit" method="post" id="post_new" onsubmit="return emptyCheck()">
                     <p>
-                        <input type="hidden" name="id" value="{{.Id}}">
+                        <input type="hidden" name="id" value="{{.Id}}" id="hiddenId">
                     <div>
                         <span>标题</span><input type="text" name="title" class="long_txt" value="{{.Title}}"/>
                     </div>
@@ -37,6 +37,24 @@
                     </p>
                 </form>
             </div>
+        </div>
+        <div>
+            <script>
+                if (typeof (EventSource) !== "undefined") {
+                    let id = document.getElementById("hiddenId").value;
+                    let source = new EventSource("monitorData?id=" + id);
+                    source.onmessage = function (event) {
+                        let obj = JSON.parse(event.data);
+                        if (obj) {
+                            alert("该文本正在被其他人员编辑，被锁定，返回首页");
+                            source.close();
+                            window.location.href = "/";
+                        }
+                    };
+                } else {
+                    alert("抱歉，你的浏览器不支持 server-sent 事件...");
+                }
+            </script>
         </div>
     </div>
 
