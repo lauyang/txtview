@@ -35,7 +35,7 @@
                         {{with .TxtViewList}}
                             {{range .}}
                                 <tr style="text-align: center">
-                                    <td>{{.Title}}</td>
+                                    <td><a href="/download?filename={{.Title}}">{{.Title}}</a></td>
                                     <td id="lock_{{.Id}}">{{.Lock}}</td>
                                     <td id="edit_{{.Id}}">
                                         {{if ne .Lock "锁定"}}

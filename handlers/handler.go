@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"os"
 	"strconv"
 	"time"
@@ -210,6 +211,28 @@ func EditTxtView(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 
+	}
+}
+
+func Download(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()                  //解析url传递的参数，对于POST则解析响应包的主体（request body）
+	fileName := r.Form["filename"] //filename  文件名
+	path := "views/file/"          //文件存放目录
+	file, err := os.Open(path + fileName[0])
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer file.Close()
+	content, err := ioutil.ReadAll(file)
+	fileNames := url.QueryEscape(fileName[0]) // 防止中文乱码
+	w.Header().Add("Content-Type", "application/octet-stream")
+	w.Header().Add("Content-Disposition", "attachment; filename=\""+fileNames+"\"")
+
+	if err != nil {
+		fmt.Println("Read File Err:", err.Error())
+	} else {
+		w.Write(content)
 	}
 }
 

@@ -11,11 +11,12 @@ func main() {
 	http.Handle("/public/", http.FileServer(http.Dir("./")))
 
 	// 路由
+	http.HandleFunc("/", handlers.Index)
 	http.HandleFunc("/new", handlers.NewTxtView)
 	http.HandleFunc("/edit", handlers.EditTxtView)
+	http.HandleFunc("/download", handlers.Download)
 	//http.HandleFunc("/restore", handlers.DelTxtView)
 	http.HandleFunc("/delete", handlers.DelTxtView)
-	http.HandleFunc("/", handlers.Index)
 	http.HandleFunc("/monitorList", handlers.MonitorList)
 	http.HandleFunc("/monitorData", handlers.MonitorData)
 
