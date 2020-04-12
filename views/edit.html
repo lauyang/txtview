@@ -46,7 +46,7 @@
                     source.onmessage = function (event) {
                         let obj = JSON.parse(event.data);
                         if (obj) {
-                            alert("该文本正在被其他人员编辑，被锁定，返回首页");
+                            alert("该文本1分钟锁定时间到，即将返回首页");
                             source.close();
                             window.location.href = "/";
                         }

@@ -39,9 +39,8 @@
                                     <td id="lock_{{.Id}}">{{.Lock}}</td>
                                     <td id="edit_{{.Id}}">
                                         {{if ne .Lock "锁定"}}
-                                            <a href="/edit?id={{.Id}}">编辑</a>&nbsp;
-                                            <a href="/delete?id={{.Id}}&del={{.Del}}"
-                                               onclick="return confirm('删除以后不能恢复的，确定？')">删除</a>
+                                            <a href="/edit?id={{.Id}}" onclick="return confirm('开始编辑后会锁定该文档1分钟，是否开始编辑？')">编辑</a>&nbsp;
+                                            <a href="/delete?id={{.Id}}&del={{.Del}}" onclick="return confirm('删除以后不能恢复的，确定？')">删除</a>
                                         {{end}}
                                     </td>
                                 </tr>
@@ -65,7 +64,7 @@
                             if (ele.Lock === "锁定") {
                                 document.getElementById("edit_" + ele.Id).innerHTML = "";
                             } else {
-                                document.getElementById("edit_" + ele.Id).innerHTML = '<a href="/edit?id='+ele.Id+'">编辑</a>&nbsp; <a href="/delete?id='+ele.Id+'&del='+ele.Del+'" onclick="return confirm(\'删除以后不能恢复的，确定？\')">删除</a>';
+                                document.getElementById("edit_" + ele.Id).innerHTML = '<a href="/edit?id='+ele.Id+'" onclick="return confirm(\'开始编辑后会锁定该文档1分钟，是否开始编辑？\')">编辑</a>&nbsp; <a href="/delete?id='+ele.Id+'&del='+ele.Del+'" onclick="return confirm(\'删除以后不能恢复的，确定？\')">删除</a>';
                             }
                         }
                     };
